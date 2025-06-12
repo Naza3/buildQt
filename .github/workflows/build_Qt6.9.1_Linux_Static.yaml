@@ -38,7 +38,7 @@ jobs:
             -prefix $HOME/qt_static_install \
             -static -static-runtime \
             -nomake examples -nomake tests \
-            -skip qtwebengine -opensource -confirm-license -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype
+            -skip qtwebengine -skip qtquick3d -opensource -confirm-license -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype
       
       - name: Build Qt
         run: |
