@@ -24,7 +24,8 @@ jobs:
           libxcb-shm0-dev libxcb-render0-dev libxcb-xinerama0-dev \
           libxkbcommon-dev libfreetype-dev libpng-dev \
           libjpeg-dev zlib1g-dev libpcre2-dev \
-          mesa-common-dev libglu1-mesa-dev libgl1-mesa-dev
+          mesa-common-dev libglu1-mesa-dev libgl1-mesa-dev \
+          libwayland-dev libxkbcommon-dev libegl-dev
 
       - name: Download Qt Source
         run: |
