@@ -1,0 +1,66 @@
+name: Build Qt 6.9.1 Static (Ubuntu + Ninja)
+
+on:
+  workflow_dispatch:
+
+env:
+  QT_VERSION: 6.9.1
+  QT_VERSION2: 6.9
+
+jobs:
+  build_qt_static:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            build-essential ninja-build cmake perl python3 git \
+            libx11-dev libx11-xcb-dev libxcb1-dev \
+            libxcb-shm0-dev libxcb-render0-dev libxcb-xinerama0-dev \
+            libxkbcommon-dev libfreetype-dev libpng-dev \
+            libjpeg-dev zlib1g-dev libpcre2-dev
+
+      - name: Download Qt Source
+        run: |
+          mkdir -p $HOME/qt_build
+          cd $HOME/qt_build
+          curl -LO https://download.qt.io/official_releases/qt/${{ env.QT_VERSION2 }}/${{ env.QT_VERSION }}/single/qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
+          tar -xf qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
+
+      - name: Configure Qt (Static)
+        run: |
+          cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
+          ./configure \
+            -prefix $HOME/qt_static_install \
+            -static -static-runtime -release \
+            -nomake examples -nomake tests \
+            -skip qtwebengine \
+            -opensource -confirm-license \
+            -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype \
+            -no-dbus -no-opengl -ninja
+
+      - name: Build Qt
+        run: |
+          cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
+          cmake --build . --parallel
+
+      - name: Install Qt
+        run: |
+          cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
+          cmake --install .
+
+      - name: Archive Build
+        run: |
+          cd $HOME
+          tar -czf qt-${{ env.QT_VERSION }}-static-linux.tar.gz qt_static_install
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qt-${{ env.QT_VERSION }}-static-linux
+          path: ~/qt-${{ env.QT_VERSION }}-static-linux.tar.gz
