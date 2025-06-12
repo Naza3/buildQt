@@ -35,14 +35,16 @@ jobs:
       - name: Configure Qt (Static)
         run: |
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
-          ./configure \
+          
+            ./configure \
             -prefix $HOME/qt_static_install \
             -static -static-runtime -release \
             -nomake examples -nomake tests \
             -skip qtwebengine \
             -opensource -confirm-license \
             -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype \
-            -no-dbus -no-opengl -ninja
+            -no-dbus -no-opengl \
+            -G Ninja
 
       - name: Build Qt
         run: |
