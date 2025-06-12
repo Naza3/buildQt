@@ -19,6 +19,14 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y \
+          build-essential ninja-build cmake perl python3 git \
+          libx11-dev libx11-xcb-dev libxcb1-dev \
+          libxcb-shm0-dev libxcb-render0-dev libxcb-xinerama0-dev \
+          libxkbcommon-dev libfreetype-dev libpng-dev \
+          libjpeg-dev zlib1g-dev libpcre2-dev \
+          mesa-common-dev libglu1-mesa-dev libgl1-mesa-dev
+          sudo apt update
+          sudo apt install -y \
             build-essential ninja-build cmake perl python3 git \
             libx11-dev libx11-xcb-dev libxcb1-dev \
             libxcb-shm0-dev libxcb-render0-dev libxcb-xinerama0-dev \
@@ -33,6 +41,7 @@ jobs:
           tar -xf qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
       - name: Configure Qt
         run: |
+          rm -rf $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
           ./configure \
             -prefix $HOME/qt_static_install \
