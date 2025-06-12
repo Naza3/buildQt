@@ -36,12 +36,9 @@ jobs:
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
           ./configure \
             -prefix $HOME/qt_static_install \
-            -static -static-runtime -release \
+            -static -static-runtime \
             -nomake examples -nomake tests \
-            -skip qtwebengine \
-            -opensource -confirm-license \
-            -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype \
-            -no-dbus -no-opengl
+            -skip qtwebengine -opensource -confirm-license -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype
       
       - name: Build Qt
         run: |
