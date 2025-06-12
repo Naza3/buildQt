@@ -31,30 +31,28 @@ jobs:
           cd $HOME/qt_build
           curl -LO https://download.qt.io/official_releases/qt/${{ env.QT_VERSION2 }}/${{ env.QT_VERSION }}/single/qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
           tar -xf qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
-
-      - name: Configure Qt (Static)
+      - name: Configure Qt
         run: |
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
-          
-            ./configure \
+          ./configure \
             -prefix $HOME/qt_static_install \
             -static -static-runtime -release \
             -nomake examples -nomake tests \
             -skip qtwebengine \
             -opensource -confirm-license \
             -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre -qt-freetype \
-            -no-dbus -no-opengl \
-            -G Ninja
-
+            -no-dbus -no-opengl
+      
       - name: Build Qt
         run: |
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
           cmake --build . --parallel
-
+      
       - name: Install Qt
         run: |
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
           cmake --install .
+
 
       - name: Archive Build
         run: |
