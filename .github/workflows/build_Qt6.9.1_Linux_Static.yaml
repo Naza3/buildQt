@@ -33,7 +33,13 @@ jobs:
           cd $HOME/qt_build
           curl -LO https://download.qt.io/official_releases/qt/${{ env.QT_VERSION2 }}/${{ env.QT_VERSION }}/single/qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
           tar -xf qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
-          rm -rf qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
+      - name: Free space
+        run: |
+          df -h
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /tmp/*
+          df -h
+          rm -rf $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}.tar.xz
       - name: Configure Qt
         run: |
           cd $HOME/qt_build/qt-everywhere-src-${{ env.QT_VERSION }}
