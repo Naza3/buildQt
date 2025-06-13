@@ -11,6 +11,7 @@ jobs:
   build_qt_static:
     runs-on: ubuntu-latest
 
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -26,6 +27,11 @@ jobs:
           libjpeg-dev zlib1g-dev libpcre2-dev \
           mesa-common-dev libglu1-mesa-dev libgl1-mesa-dev \
           libwayland-dev libxkbcommon-dev libegl-dev
+      - name: Setup TMPDIR to use /mnt/tmp
+        run: |
+          sudo mkdir -p /mnt/tmp
+          sudo chmod 777 /mnt/tmp
+          echo "TMPDIR=/mnt/tmp" >> $GITHUB_ENV
 
       - name: Download Qt Source
         run: |
